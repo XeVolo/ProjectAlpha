@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 namespace Models.Enums;
 public enum ActionType
 {
-    Added   = 1,
-    Updated = 2,
-    Deleted = 3
+    Create   = 1,
+    Update   = 2,
+    Delete   = 3,
+    None     = 4
 }

@@ -10,6 +10,7 @@ namespace Repositories.Interfaces;
 public interface IUnitOfWork
 {
     IUserRepository     Users { get; }
+    IAuditLogRepository AuditLogs { get; }
     IRepository<Role>   Roles { get; }
     Task                SaveChangesAsync();
 }
