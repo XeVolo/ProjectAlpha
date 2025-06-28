@@ -21,4 +21,6 @@ public class UserRepository : Repository<User>, IUserRepository
     public async Task<User?> GetByRefreshTokenAsync(string token)
         => await _set.Include(u => u.Role)
                      .FirstOrDefaultAsync(u => u.RefreshToken == token && u.RefreshTokenExpires > DateTime.UtcNow);
+    public async Task<bool> ExistsByEmailAsync(string email)
+        => await _set.AnyAsync(u => u.Email == email);
 }

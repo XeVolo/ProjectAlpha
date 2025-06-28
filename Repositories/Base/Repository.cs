@@ -38,4 +38,11 @@ public class Repository<T> : IRepository<T> where T : class
 
     public virtual async Task<bool> ExistsAsync(Guid id)
         => await _set.AnyAsync(e => EF.Property<Guid>(e, "Id") == id);
+    public virtual Task<T?> Update(T entity)
+    {
+        _set.Update(entity);
+        return Task.FromResult(entity)!;
+    }
+
+
 }

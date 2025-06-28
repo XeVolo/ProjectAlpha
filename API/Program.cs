@@ -1,13 +1,42 @@
 using API.Services;
+using Auth.Extensions;
 using Infrastructure.Persistence;
 using Infrastructure.Persistence.Extensions;
+using Microsoft.IdentityModel.Tokens;
 using Repositories.Extensions;
 using System;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddAuthentication("Bearer")
+    .AddJwtBearer("Bearer", options =>
+    {
+        var config = builder.Configuration;
+
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidIssuer = config["Jwt:Issuer"],
+
+            ValidateAudience = true,
+            ValidAudience = config["Jwt:Audience"],
+
+            ValidateLifetime = true,
+            ClockSkew = TimeSpan.Zero,
+
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(config["Jwt:Key"]!))
+        };
+    });
+
+builder.Services.AddAuthorization();
+
+
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddRepositories();
+builder.Services.AddAuth();
 builder.Services.AddGrpc();
 
 var app = builder.Build();
