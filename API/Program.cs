@@ -1,8 +1,11 @@
 using API.Services;
+using Infrastructure.Persistence;
+using Infrastructure.Persistence.Extensions;
+using System;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddGrpc();
 
 var app = builder.Build();
