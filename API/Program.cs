@@ -1,11 +1,13 @@
 using API.Services;
 using Infrastructure.Persistence;
 using Infrastructure.Persistence.Extensions;
+using Repositories.Extensions;
 using System;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddRepositories();
 builder.Services.AddGrpc();
 
 var app = builder.Build();
