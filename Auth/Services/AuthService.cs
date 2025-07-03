@@ -11,20 +11,20 @@ using System.Threading.Tasks;
 namespace Auth.Services;
 public class AuthService : IAuthService
 {
-    private readonly IUserRepository _users;
+    private readonly IUnitOfWork _unitofwork;
     private readonly IPasswordHasher _hasher;
     private readonly ITokenService _tokenService;
 
-    public AuthService(IUserRepository users, IPasswordHasher hasher, ITokenService tokenService)
+    public AuthService(IUnitOfWork unitOfWork, IPasswordHasher hasher, ITokenService tokenService)
     {
-        _users = users;
+        _unitofwork = unitOfWork;
         _hasher = hasher;
         _tokenService = tokenService;
     }
 
-    public async Task RegisterAsync(RegisterRequest dto)
+    public async Task<bool> RegisterAsync(RegisterRequestDto dto)
     {
-        if (await _users.ExistsByEmailAsync(dto.Email))
+        if (await _unitofwork.Users.ExistsByEmailAsync(dto.Email))
             throw new Exception("User already exists");
 
         var user = new User
@@ -36,12 +36,14 @@ public class AuthService : IAuthService
             PasswordHash = _hasher.Hash(dto.Password),
         };
 
-        await _users.AddAsync(user);
+        await _unitofwork.Users.AddAsync(user);
+        await _unitofwork.SaveChangesAsync();
+        return true;
     }
 
-    public async Task<AuthResult> LoginAsync(LoginRequest dto)
+    public async Task<LoginResultDto> LoginAsync(LoginRequestDto dto)
     {
-        var user = await _users.GetByEmailAsync(dto.Email);
+        var user = await _unitofwork.Users.GetByEmailAsync(dto.Email);
         if (user == null || !_hasher.Verify(dto.Password, user.PasswordHash))
             throw new Exception("Invalid credentials");
 
@@ -50,13 +52,13 @@ public class AuthService : IAuthService
         user.RefreshToken = tokens.RefreshToken;
         user.RefreshTokenExpires = tokens.RefreshTokenExpires;
 
-        await _users.Update(user);
+        await _unitofwork.Users.Update(user);
+        await _unitofwork.SaveChangesAsync();
 
-        return new AuthResult
+        return new LoginResultDto
         {
             AccessToken = tokens.AccessToken,
             RefreshToken = tokens.RefreshToken,
-            Role = user.Role.Name
         };
     }
 }

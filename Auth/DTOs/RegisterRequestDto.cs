@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Auth.DTOs;
 
-public class RegisterRequest
+public class RegisterRequestDto
 {
     public string Email { get; set; } = string.Empty;
     public string Password { get; set; } = string.Empty;

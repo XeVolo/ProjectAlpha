@@ -8,6 +8,6 @@ using System.Threading.Tasks;
 namespace Auth.Interfaces;
 public interface IAuthService
 {
-    Task RegisterAsync(RegisterRequest dto);
-    Task<AuthResult> LoginAsync(LoginRequest dto);
+    Task<bool> RegisterAsync(RegisterRequestDto dto);
+    Task<LoginResultDto> LoginAsync(LoginRequestDto dto);
 }
