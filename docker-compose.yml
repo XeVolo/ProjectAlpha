@@ -1,0 +1,7 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: ProjectAlpha.Api/Dockerfile
+    env_file:
+      - .env
