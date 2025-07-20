@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Models.Entities;
+﻿namespace Models.Entities;
 
 public class User
 {
@@ -19,6 +12,7 @@ public class User
     public string       FirstName           { get; set; } = string.Empty;
     public string       LastName            { get; set; } = string.Empty;
     public DateTime?    DateOfBirth         { get; set; }
+    public bool         IsDeleted           { get; set; } = false;
     public Guid         RoleId              { get; set; }
     public Role         Role                { get; set; } = null!;
 

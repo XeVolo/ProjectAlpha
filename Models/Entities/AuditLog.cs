@@ -1,10 +1,6 @@
 ﻿using Models.Enums;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace Models.Entities;
 
 public class AuditLog
@@ -20,4 +16,5 @@ public class AuditLog
     public Guid?        PerformedByAdminId  { get; set; }
     public string?      IpAddress           { get; set; }
     public string?      DeviceInfo          { get; set; }
+    public bool         IsDeleted           { get; set; } = false;
 }
