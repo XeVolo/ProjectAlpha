@@ -1,5 +1,6 @@
 ﻿using Auth.DTOs;
 using Auth.Interfaces;
+using Infrastructure.PasswordHasher;
 using Models.Entities;
 using Repositories.Interfaces;
 using System;

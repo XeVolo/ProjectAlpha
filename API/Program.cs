@@ -1,4 +1,3 @@
-using API.Services;
 using Auth.Extensions;
 using Infrastructure.Persistence;
 using Infrastructure.Persistence.Extensions;
@@ -12,7 +11,9 @@ using System.Text;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration
+    .SetBasePath(Directory.GetCurrentDirectory())
     .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true)
     .AddEnvironmentVariables();
 
 builder.Services.AddAuthentication("Bearer")
@@ -57,7 +58,7 @@ using (var scope = app.Services.CreateScope())
 }
 
 // Configure the HTTP request pipeline.
-app.MapGrpcService<GreeterService>();
+app.MapGrpcService<GrpcUserAuthService>();
 app.MapGet("/", () => "Communication with gRPC endpoints must be made through a gRPC client. To learn how to create a client, visit: https://go.microsoft.com/fwlink/?linkid=2086909");
 
 app.Run();

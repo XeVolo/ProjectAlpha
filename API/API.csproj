@@ -9,10 +9,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Protobuf Include="Protos\greet.proto" GrpcServices="Server" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Grpc.AspNetCore" Version="2.64.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.6">
@@ -30,6 +26,12 @@
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\Auth\Auth.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Protos\" />
+	</ItemGroup>
+	<ItemGroup>
+		<Protobuf Include="Protos\UserAuth.proto" GrpcServices="Server" />
 	</ItemGroup>
 
 </Project>

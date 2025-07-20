@@ -29,7 +29,7 @@ public static class ServiceCollectionExtensions
         {
             var interceptor = serviceProvider.GetRequiredService<AuditInterceptor>();
 
-            options.UseNpgsql(configuration.GetConnectionString("Default"));
+            options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"));
             options.AddInterceptors(interceptor);
 
 
