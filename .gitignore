@@ -364,3 +364,9 @@ FodyWeavers.xsd
 
 # ignore environment config
 .env
+
+# ignore uploads
+Uploads/*
+
+# not ignore uploads directory, but keep it empty
+!Uploads/.gitkeep

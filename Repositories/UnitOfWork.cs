@@ -16,17 +16,20 @@ public class UnitOfWork : IUnitOfWork
     public IUserRepository Users { get; }
     public IAuditLogRepository AuditLogs { get; }
     public IRepository<Role> Roles { get; }
+    public IRepository<Project> Projects { get; }
 
     public UnitOfWork(
         AppDbContext db,
         IUserRepository users,
         IAuditLogRepository auditLogs,
-        IRepository<Role> roles)
+        IRepository<Role> roles,
+        IRepository<Project> projects)
     {
         _db = db;
         Users = users;
         AuditLogs = auditLogs;
         Roles = roles;
+        Projects = projects;
     }
 
     public Task SaveChangesAsync() => _db.SaveChangesAsync();

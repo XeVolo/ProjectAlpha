@@ -12,7 +12,10 @@ public class MigrationService(AppDbContext dbContext)
 
         try
         {
-            await dbContext.Database.MigrateAsync();
+            if ((await dbContext.Database.GetPendingMigrationsAsync()).Any())
+            {
+                await dbContext.Database.MigrateAsync();
+            }
         }
         catch (Exception ex)
         {

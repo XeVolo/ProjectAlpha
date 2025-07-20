@@ -1,8 +1,13 @@
 ﻿using Infrastructure.Audit;
 using Infrastructure.Identity;
+using Infrastructure.PasswordHasher;
+using Infrastructure.Seeders;
+using Infrastructure.Seeders.DataSeeders;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Models.Entities;
+
 
 namespace Infrastructure.Persistence.Extensions;
 
@@ -14,6 +19,11 @@ public static class ServiceCollectionExtensions
         services.AddHttpContextAccessor();
         services.AddScoped<ICurrentUserService, CurrentUserService>();
         services.AddScoped<MigrationService>();
+        services.AddScoped<ISeederService, SeederService>();
+        services.AddScoped<IEntitySeederService<User>, UserSeeder>();
+        services.AddScoped<IEntitySeederService<Role>, RoleSeeder>();
+        services.AddScoped<IEntitySeederService<Project>, ProjectSeeder>();
+        services.AddScoped<IPasswordHasher, PasswordHasher.PasswordHasher>();
 
         services.AddDbContext<AppDbContext>((serviceProvider, options) =>
         {
@@ -21,6 +31,8 @@ public static class ServiceCollectionExtensions
 
             options.UseNpgsql(configuration.GetConnectionString("Default"));
             options.AddInterceptors(interceptor);
+
+
         });
 
         return services;

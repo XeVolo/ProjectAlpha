@@ -2,6 +2,7 @@ using API.Services;
 using Auth.Extensions;
 using Infrastructure.Persistence;
 using Infrastructure.Persistence.Extensions;
+using Infrastructure.Seeders;
 using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.IdentityModel.Tokens;
 using Repositories.Extensions;
@@ -51,6 +52,8 @@ using (var scope = app.Services.CreateScope())
     var migrationRunner = scope.ServiceProvider.GetRequiredService<MigrationService>();
     await migrationRunner.ApplyMigrations();
 
+    var seeder = scope.ServiceProvider.GetRequiredService<ISeederService>();
+    await seeder.SeedAsync();
 }
 
 // Configure the HTTP request pipeline.
