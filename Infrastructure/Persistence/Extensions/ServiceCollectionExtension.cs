@@ -13,6 +13,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<AuditInterceptor>();
         services.AddHttpContextAccessor();
         services.AddScoped<ICurrentUserService, CurrentUserService>();
+        services.AddScoped<MigrationService>();
 
         services.AddDbContext<AppDbContext>((serviceProvider, options) =>
         {

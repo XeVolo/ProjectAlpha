@@ -2,6 +2,7 @@ using API.Services;
 using Auth.Extensions;
 using Infrastructure.Persistence;
 using Infrastructure.Persistence.Extensions;
+using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.IdentityModel.Tokens;
 using Repositories.Extensions;
 using System;
@@ -44,6 +45,13 @@ builder.Services.AddAuth();
 builder.Services.AddGrpc();
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var migrationRunner = scope.ServiceProvider.GetRequiredService<MigrationService>();
+    await migrationRunner.ApplyMigrations();
+
+}
 
 // Configure the HTTP request pipeline.
 app.MapGrpcService<GreeterService>();
