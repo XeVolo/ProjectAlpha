@@ -1,8 +1,6 @@
 ﻿using Models.Enums;
-using System;
-using System.Collections.Generic;
-namespace Models.Entities;
 
+namespace Models.Entities;
 public class AuditLog
 {
     public Guid         Id                  { get; set; }

@@ -1,5 +1,6 @@
-﻿namespace Models.Entities;
+﻿using Models.Enums;
 
+namespace Models.Entities;
 public class Role
 {
     public Guid         Id          { get; set; }

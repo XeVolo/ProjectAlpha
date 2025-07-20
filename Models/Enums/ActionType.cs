@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Models.Enums;
+﻿namespace Models.Enums;
 public enum ActionType
 {
-    Create   = 1,
-    Update   = 2,
-    Delete   = 3,
-    None     = 4
+    Create   = 0,
+    Update   = 1,
+    Delete   = 2,
+    None     = 3
 }
