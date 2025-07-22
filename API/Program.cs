@@ -3,6 +3,8 @@ using Infrastructure.Persistence;
 using Infrastructure.Persistence.Extensions;
 using Infrastructure.Seeders;
 using Microsoft.AspNetCore.Hosting.Server;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 using Repositories.Extensions;
 using System;
@@ -38,6 +40,19 @@ builder.Services.AddAuthentication("Bearer")
         };
     });
 
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.ListenAnyIP(8080, listenOptions =>
+    {
+        listenOptions.Protocols = HttpProtocols.Http1;
+    });
+
+    options.ListenAnyIP(8081, listenOptions =>
+    {
+        listenOptions.Protocols = HttpProtocols.Http2;
+    });
+});
+
 builder.Services.AddAuthorization();
 
 
@@ -56,6 +71,12 @@ using (var scope = app.Services.CreateScope())
     var seeder = scope.ServiceProvider.GetRequiredService<ISeederService>();
     await seeder.SeedAsync();
 }
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+        Path.Combine(builder.Environment.ContentRootPath, "Uploads")),
+    RequestPath = "/Uploads"
+});
 
 // Configure the HTTP request pipeline.
 app.MapGrpcService<GrpcUserAuthService>();

@@ -7,6 +7,9 @@ services:
     container_name: projectalpha_api
     ports:
       - "5000:8080"
+      - "5001:8081"
+    volumes:
+      - ./Uploads:/app/Uploads
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD};Database=${POSTGRES_DB}
